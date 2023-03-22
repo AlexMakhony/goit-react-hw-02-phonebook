@@ -8,53 +8,69 @@ export class App extends Component {
     this.state = {
       name: '',
       contacts: [],
+    //   Додаємо ключ номеру
+      number: '',
     };
   }
 
-//  Метод зміни значення у формі який буде рендеритись у імпуті
-  handleNameChange = (e) => {
-    this.setState({ name: e.target.value });
+//  ШАГ 1: Метод зміни значення у формі який буде рендеритись у імпуті
+//  ШАГ 2: змінюємо наш метод, аби корректувати СТЕЙТ не тільки імені
+   handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
 //   Пишемо метод, який викликаємо при сабміті форми
   handleSubmit = (e) => {
     e.preventDefault();
-    // Створюємо наш контакт, який буде отримувати унікальний ID через nanoid
-    const contact = {
-      id: nanoid(),
-      name: this.state.name,
-    };
-    // Змінюємо стейт, додавши наш новий контакт
-    this.setState({
-      contacts: [...this.state.contacts, contact],
+    // ШАГ 1: Створюємо наш контакт, який буде отримувати унікальний ID через nanoid
+    // ШАГ 2: Додаємо мошливість змінювати сабміт форми впливаючи на №терефону
+    const { name, number } = this.state;
+    const newContact = { id: nanoid(), name, number };
+    this.setState((prevState) => ({
+      contacts: [...prevState.contacts, newContact],
       name: '',
-    });
+      number: '',
+    }));
   };
 
   
-//   Рендеримо цю історію
-  render() {
+//  ШАГ1: Рендеримо цю історію
+//  ЩАШ2: перероблюємо наш рендер, додавши інпут №телефону згідно ТЗ
+render() {
+    const { contacts, name, number } = this.state;
     return (
       <div>
         <h1>Phonebook</h1>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Name:
+            Name
             <input
               type="text"
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              value={this.state.name}
-              onChange={this.handleNameChange}
+              value={name}
+              onChange={this.handleChange}
+              required
+            />
+          </label>
+          <label>
+            Number
+            <input
+              type="tel"
+              name="number"
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              value={number}
+              onChange={this.handleChange}
               required
             />
           </label>
           <button type="submit">Add contact</button>
         </form>
         <h2>Contacts</h2>
-        {/* Прокидуємо проп з нашим новим стейтом і отримуємо список з лішками */}
-        <ContactList contacts={this.state.contacts} />
+        <ContactList contacts={contacts} />
       </div>
     );
   }
