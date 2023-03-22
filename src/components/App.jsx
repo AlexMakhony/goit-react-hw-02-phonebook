@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import {ContactList} from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
 
 export class App extends Component {
   constructor() {
@@ -87,7 +88,10 @@ render() {
         </form>
         <h2>Contacts</h2>
         {/* ШАГ3: Додаємо імпут для пошуку контакту по Name */}
-        <input type="text" value={filter} onChange={this.handleFilterChange} placeholder="Search by name" />
+        {/* <input type="text" value={filter} onChange={this.handleFilterChange} placeholder="Search by name" /> */}
+        {/* ШАГ4: Фільтр виносимо в окремий компонент */}
+        <Filter filter={filter} onFilterChange={this.handleFilterChange} />
+        
         {/* Шаг3: Тепер пережаємо пром не контактс, а відвільтровані контакти */}
         <ContactList contacts={filteredContacts} />
       </div>
