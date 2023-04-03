@@ -1,10 +1,11 @@
 import React from 'react';
+import {FilterWrapper, FilterInput} from './Filter.styled'
 
 export const Filter = ({ filter, onFilterChange }) => {
   return (
-    <label>
-      Filter by name
-      <input type="text" value={filter} onChange={onFilterChange} />
-    </label>
+    <FilterWrapper>
+      Пошук (ім'я)
+      <FilterInput type="text" value={filter} onChange={onFilterChange} />
+    </FilterWrapper>
   );
 };
