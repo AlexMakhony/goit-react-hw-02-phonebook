@@ -1,5 +1,7 @@
 import {ContactListWrapper, ContactListEl, ContactListBtn} from "./ContactList.styled"
 import { FcCellPhone } from "react-icons/fc";
+import PropTypes from 'prop-types';
+
 
 export const ContactList = ({ contacts, onDeleteContact }) => {
   const handleDeleteContact = (id) => {
@@ -18,4 +20,15 @@ export const ContactList = ({ contacts, onDeleteContact }) => {
       ))}
     </ContactListWrapper>
   );
+};
+
+ContactList.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onDeleteContact: PropTypes.func.isRequired
 };

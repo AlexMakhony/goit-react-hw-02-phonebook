@@ -4,6 +4,7 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 import {PhoneWrapper} from './App.styled'
+import PropTypes from 'prop-types';
 
 
 export class App extends Component {
@@ -64,7 +65,19 @@ export class App extends Component {
 }
 
 
-
+App.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
+  filter: PropTypes.string,
+  addContact: PropTypes.func,
+  handleFilterChange: PropTypes.func,
+  deleteContact: PropTypes.func,
+};
 
 
 
